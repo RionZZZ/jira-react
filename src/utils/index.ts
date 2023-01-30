@@ -5,9 +5,9 @@ export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 export const cleanObject = (obj: object) => {
   const result = { ...obj };
   Object.keys(obj).forEach((key) => {
-    const value = obj[key];
+    const value = obj[key as keyof object];
     if (isFalsy(value)) {
-      delete result[key];
+      delete result[key as keyof object];
     }
   });
   return result;

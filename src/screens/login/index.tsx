@@ -1,30 +1,27 @@
-const apiUrl = process.env.REACT_APP_API_URL;
+import { useAuth } from "context/auth-context";
+
 export const LoginScreen: React.FC = () => {
-  const login = (params: { userName: string; password: string }) => {
-    fetch(`${apiUrl}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(params),
-    }).then(async (res) => {
-      if (res.ok) {
-      }
-    });
-  };
+  const { login, register, user } = useAuth();
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    const userName = (evt.currentTarget.elements[0] as HTMLInputElement).value;
+    const username = (evt.currentTarget.elements[0] as HTMLInputElement).value;
     const password = (evt.currentTarget.elements[1] as HTMLInputElement).value;
-    login({ userName, password });
+    login({ username, password });
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      {user ? (
+        <div>
+          user.name: {user.name} user.token: {user.token}
+        </div>
+      ) : (
+        "no user"
+      )}
       <div>
-        <label htmlFor="userName">userName</label>
-        <input type="text" id={"userName"} />
+        <label htmlFor="username">username</label>
+        <input type="text" id={"username"} />
       </div>
       <div>
         <label htmlFor="password">password</label>

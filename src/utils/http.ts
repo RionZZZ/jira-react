@@ -1,5 +1,6 @@
 import qs from "qs";
 import * as auth from "auth-provide";
+import { useAuth } from "context/auth-context";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -8,9 +9,9 @@ interface Config extends RequestInit {
   token?: string;
 }
 
-export const Http = async (
+export const http = async (
   endpoint: string,
-  { data, token, headers, ...customConfig }: Config
+  { data, token, headers, ...customConfig }: Config = {}
 ) => {
   const config = {
     // customConfig内如果包含method，会覆盖缺省值
@@ -41,4 +42,10 @@ export const Http = async (
       return Promise.reject({ data: json });
     }
   });
+};
+
+export const useHttp = () => {
+  const { user } = useAuth();
+  return (...[endpoint, config]: Parameters<typeof http>) =>
+    http(endpoint, { ...config, token: user?.token });
 };

@@ -1,17 +1,22 @@
 import { useAuth } from "context/auth-context";
+import { Form, Input, Button } from "antd";
 
 export const LoginScreen: React.FC = () => {
   const { login, user } = useAuth();
 
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    const username = (evt.currentTarget.elements[0] as HTMLInputElement).value;
-    const password = (evt.currentTarget.elements[1] as HTMLInputElement).value;
-    login({ username, password });
+  // const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+  //   evt.preventDefault();
+  //   const username = (evt.currentTarget.elements[0] as HTMLInputElement).value;
+  //   const password = (evt.currentTarget.elements[1] as HTMLInputElement).value;
+  //   login({ username, password });
+  // };
+
+  const handleSubmit = (values: { username: string; password: string }) => {
+    login(values);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onFinish={handleSubmit}>
       {/* {user ? (
         <div>
           user.name: {user.name} user.token: {user.token}
@@ -19,15 +24,23 @@ export const LoginScreen: React.FC = () => {
       ) : (
         "no user"
       )} */}
-      <div>
-        <label htmlFor="username">username</label>
-        <input type="text" id={"username"} />
-      </div>
-      <div>
-        <label htmlFor="password">password</label>
-        <input type="password" id={"password"} />
-      </div>
-      <button type="submit">login</button>
-    </form>
+      <Form.Item
+        name={"username"}
+        rules={[{ required: true, message: "must name!" }]}
+      >
+        <Input placeholder="username" type="text" id={"username"} />
+      </Form.Item>
+      <Form.Item
+        name={"password"}
+        rules={[{ required: true, message: "must pwd!" }]}
+      >
+        <Input placeholder="pwd" type="password" id={"password"} />
+      </Form.Item>
+      <Form.Item>
+        <Button htmlType="submit" type="primary">
+          login
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };

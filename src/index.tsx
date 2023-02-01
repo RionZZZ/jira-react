@@ -5,6 +5,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { loadDevTools } from "jira-dev-tool";
 import { AppProvides } from "context";
+// 在jira-dev-tool后面引入antd
+import "antd/dist/reset.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

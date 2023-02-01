@@ -1,7 +1,7 @@
 import { useAuth } from "context/auth-context";
 
 export const LoginScreen: React.FC = () => {
-  const { login, register, user } = useAuth();
+  const { login, user } = useAuth();
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -12,13 +12,13 @@ export const LoginScreen: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {user ? (
+      {/* {user ? (
         <div>
           user.name: {user.name} user.token: {user.token}
         </div>
       ) : (
         "no user"
-      )}
+      )} */}
       <div>
         <label htmlFor="username">username</label>
         <input type="text" id={"username"} />

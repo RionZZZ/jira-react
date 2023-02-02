@@ -1,5 +1,6 @@
 import { useAuth } from "context/auth-context";
 import { Form, Input, Button } from "antd";
+import { LongButton } from "unauthenticated-app";
 
 export const RegisterScreen: React.FC = () => {
   const { register } = useAuth();
@@ -30,9 +31,9 @@ export const RegisterScreen: React.FC = () => {
         <Input placeholder="pwd" type="password" id={"password"} />
       </Form.Item>
       <Form.Item>
-        <Button htmlType="submit" type="primary">
+        <LongButton htmlType="submit" type="primary">
           register
-        </Button>
+        </LongButton>
       </Form.Item>
     </Form>
   );

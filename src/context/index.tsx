@@ -1,5 +1,5 @@
 import React from "react";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, theme } from "antd";
 import { AuthProvider } from "./auth-context";
 import { StyleProvider } from "@ant-design/cssinjs";
 
@@ -8,13 +8,13 @@ export const AppProvides = ({ children }: { children: React.ReactNode }) => {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#00b96b",
+          colorPrimary: "#a8dca0",
           fontSize: 16,
         },
       }}
     >
       <StyleProvider hashPriority="high">
-        <AuthProvider>{children}</AuthProvider>;
+        <AuthProvider>{children}</AuthProvider>
       </StyleProvider>
     </ConfigProvider>
   );

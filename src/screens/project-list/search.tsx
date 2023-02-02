@@ -1,3 +1,4 @@
+import { Form, Input, Select } from "antd";
 import { User } from "./list";
 
 interface SearchProps {
@@ -11,27 +12,25 @@ interface SearchProps {
 
 export const Search: React.FC<SearchProps> = ({ users, params, setParams }) => {
   return (
-    <form>
+    <Form>
       <div>
-        <input
+        <Input
           type="text"
           value={params.name}
           onChange={(env) => setParams({ ...params, name: env.target.value })}
         />
-        <select
+        <Select
           value={params.personId}
-          onChange={(env) =>
-            setParams({ ...params, personId: env.target.value })
-          }
+          onChange={(personId) => setParams({ ...params, personId })}
         >
-          <option value="">负责人</option>
+          <Select.Option value="">负责人</Select.Option>
           {users.map((user) => (
-            <option key={user.id} value={user.id}>
+            <Select.Option key={user.id} value={user.id}>
               {user.name}
-            </option>
+            </Select.Option>
           ))}
-        </select>
+        </Select>
       </div>
-    </form>
+    </Form>
   );
 };

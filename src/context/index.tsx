@@ -1,7 +1,7 @@
 import React from "react";
 import { ConfigProvider, theme } from "antd";
 import { AuthProvider } from "./auth-context";
-import { StyleProvider } from "@ant-design/cssinjs";
+// import { StyleProvider } from "@ant-design/cssinjs";
 
 export const AppProvides = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -13,9 +13,7 @@ export const AppProvides = ({ children }: { children: React.ReactNode }) => {
         },
       }}
     >
-      <StyleProvider hashPriority="high">
-        <AuthProvider>{children}</AuthProvider>
-      </StyleProvider>
+      <AuthProvider>{children}</AuthProvider>
     </ConfigProvider>
   );
 };

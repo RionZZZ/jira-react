@@ -3,12 +3,12 @@ import { cleanObject, useMount, useDebounce } from "utils";
 import { List, Project } from "./list";
 import { Search } from "./search";
 // import qs from "qs";
-import { useHttp } from "utils/http";
+// import { useHttp } from "utils/http";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
-import { useAsync } from "utils/use-async";
+// import { useAsync } from "utils/use-async";
 import { useProjects } from "utils/project";
-import { useUser } from "utils/user";
+import { useUsers } from "utils/user";
 
 export const ProjectListScreen = () => {
   const [params, setParams] = useState({
@@ -26,7 +26,7 @@ export const ProjectListScreen = () => {
   // const client = useHttp();
   // const { run, isLoading, error, data: list } = useAsync<Project[]>();
   const { isLoading, error, data: list } = useProjects(debouncedParams);
-  const { data: users } = useUser();
+  const { data: users } = useUsers();
 
   // useEffect(() => {
   //   console.log("index-effect");

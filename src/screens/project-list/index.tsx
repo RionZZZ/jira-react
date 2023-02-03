@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { cleanObject, useMount, useDebounce } from "utils";
-import { List } from "./list";
+import { List, Project } from "./list";
 import { Search } from "./search";
 // import qs from "qs";
 import { useHttp } from "utils/http";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
+import { useAsync } from "utils/use-async";
 
 export const ProjectListScreen = () => {
   const [params, setParams] = useState({
@@ -15,24 +16,27 @@ export const ProjectListScreen = () => {
 
   const debouncedParams = useDebounce(params, 500);
 
-  const [list, setList] = useState([]);
+  // const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<null | Error>(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState<null | Error>(null);
 
   const client = useHttp();
+  const { run, isLoading, error, data: list } = useAsync<Project[]>();
 
   useEffect(() => {
     console.log("index-effect");
 
-    setLoading(true);
-    client("projects", { data: cleanObject(debouncedParams) })
-      .then(setList)
-      .catch((error) => {
-        setList([]);
-        setError(error.data);
-      })
-      .finally(() => setLoading(false));
+    run(client("projects", { data: cleanObject(debouncedParams) }));
+
+    // setLoading(true);
+    // client("projects", { data: cleanObject(debouncedParams) })
+    //   .then(setList)
+    //   .catch((error) => {
+    //     setList([]);
+    //     setError(error.data);
+    //   })
+    //   .finally(() => setLoading(false));
 
     // fetch(
     //   `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParams))}`
@@ -63,7 +67,7 @@ export const ProjectListScreen = () => {
       {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
       ) : null}
-      <List loading={loading} dataSource={list} users={users} />
+      <List loading={isLoading} dataSource={list || []} users={users} />
     </Container>
   );
 };

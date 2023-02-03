@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, TableProps } from "antd";
 import dayjs from "dayjs";
 
 export interface User {
@@ -14,16 +14,14 @@ interface Project {
   created?: number;
 }
 
-interface ListProps {
-  list: Project[];
+interface ListProps extends TableProps<Project> {
   users: User[];
 }
 
-export const List: React.FC<ListProps> = ({ list, users }) => {
+export const List: React.FC<ListProps> = ({ users, ...props }) => {
   return (
     <Table
       pagination={false}
-      dataSource={list}
       rowKey="id"
       columns={[
         {
@@ -59,6 +57,7 @@ export const List: React.FC<ListProps> = ({ list, users }) => {
           },
         },
       ]}
+      {...props}
     />
   );
   // return (

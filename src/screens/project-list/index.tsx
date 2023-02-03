@@ -4,6 +4,7 @@ import { List } from "./list";
 import { Search } from "./search";
 import qs from "qs";
 import { useHttp } from "utils/http";
+import styled from "@emotion/styled";
 
 export const ProjectListScreen = () => {
   const [params, setParams] = useState({
@@ -39,10 +40,15 @@ export const ProjectListScreen = () => {
     // });
   });
 
+  const Container = styled.div`
+    padding: 3rem;
+  `;
+
   return (
-    <div>
+    <Container>
+      <h2>Project List</h2>
       <Search params={params} setParams={setParams} users={users} />
       <List list={list} users={users} />
-    </div>
+    </Container>
   );
 };

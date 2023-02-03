@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Dropdown, MenuProps } from "antd";
+import { Button, Dropdown, MenuProps } from "antd";
 import { Row } from "components/lib";
 import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "screens/project-list";
@@ -26,7 +26,11 @@ export const AuthenticatedApp = () => {
   const menuItems: MenuProps["items"] = [
     {
       key: "logout",
-      label: <a onClick={logout}>logout</a>,
+      label: (
+        <Button type="text" onClick={logout}>
+          logout
+        </Button>
+      ),
     },
   ];
 
@@ -41,7 +45,7 @@ export const AuthenticatedApp = () => {
         </HeaderLeft>
         <HeaderRight>
           <Dropdown menu={{ items: menuItems }}>
-            <a onClick={(e) => e.preventDefault()}>Hi,{user?.name}</a>
+            <Button type="link">Hi,{user?.name}</Button>
           </Dropdown>
         </HeaderRight>
       </Header>

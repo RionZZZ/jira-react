@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { loadDevTools } from "jira-dev-tool";
+// import { loadDevTools } from "jira-dev-tool"; 旧版本会报错，使用下面@next
+import { loadServer, DevTools } from "jira-dev-tool";
 import { AppProvides } from "context";
 // 在jira-dev-tool后面引入antd
 /* 
@@ -18,11 +19,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AppProvides>
+      <DevTools />
       <App />
     </AppProvides>
   </React.StrictMode>
 );
-loadDevTools(() => root);
+loadServer(() => root);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

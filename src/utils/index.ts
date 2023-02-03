@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 
 export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
-export const cleanObject = (obj: object) => {
+export const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === "";
+
+export const cleanObject = (obj: { [key: string]: unknown }) => {
   const result = { ...obj };
   Object.keys(obj).forEach((key) => {
-    const value = obj[key as keyof object];
-    if (isFalsy(value)) {
-      delete result[key as keyof object];
+    const value = obj[key];
+    // 如果字段为boolean类型值为false，会被delete
+    // if (isFalsy(value)) {
+    if (isVoid(value)) {
+      delete result[key];
     }
   });
   return result;

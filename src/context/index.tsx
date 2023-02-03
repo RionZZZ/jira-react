@@ -13,7 +13,9 @@ export const AppProvides = ({ children }: { children: React.ReactNode }) => {
         },
       }}
     >
+      {/* <StyleProvider hashPriority="high"> */}
       <AuthProvider>{children}</AuthProvider>
+      {/* </StyleProvider> */}
     </ConfigProvider>
   );
 };

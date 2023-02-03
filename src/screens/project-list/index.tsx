@@ -7,6 +7,8 @@ import { useHttp } from "utils/http";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useAsync } from "utils/use-async";
+import { useProjects } from "utils/project";
+import { useUser } from "utils/user";
 
 export const ProjectListScreen = () => {
   const [params, setParams] = useState({
@@ -17,44 +19,46 @@ export const ProjectListScreen = () => {
   const debouncedParams = useDebounce(params, 500);
 
   // const [list, setList] = useState([]);
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState<null | Error>(null);
 
-  const client = useHttp();
-  const { run, isLoading, error, data: list } = useAsync<Project[]>();
+  // const client = useHttp();
+  // const { run, isLoading, error, data: list } = useAsync<Project[]>();
+  const { isLoading, error, data: list } = useProjects(debouncedParams);
+  const { data: users } = useUser();
 
-  useEffect(() => {
-    console.log("index-effect");
+  // useEffect(() => {
+  //   console.log("index-effect");
 
-    run(client("projects", { data: cleanObject(debouncedParams) }));
+  // run(client("projects", { data: cleanObject(debouncedParams) }));
 
-    // setLoading(true);
-    // client("projects", { data: cleanObject(debouncedParams) })
-    //   .then(setList)
-    //   .catch((error) => {
-    //     setList([]);
-    //     setError(error.data);
-    //   })
-    //   .finally(() => setLoading(false));
+  // setLoading(true);
+  // client("projects", { data: cleanObject(debouncedParams) })
+  //   .then(setList)
+  //   .catch((error) => {
+  //     setList([]);
+  //     setError(error.data);
+  //   })
+  //   .finally(() => setLoading(false));
 
-    // fetch(
-    //   `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParams))}`
-    // ).then(async (res) => {
-    //   if (res.ok) {
-    //     setList(await res.json());
-    //   }
-    // });
-  }, [debouncedParams]);
+  // fetch(
+  //   `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParams))}`
+  // ).then(async (res) => {
+  //   if (res.ok) {
+  //     setList(await res.json());
+  //   }
+  // });
+  // }, [debouncedParams]);
 
-  useMount(() => {
-    client("users").then(setUsers);
-    // fetch(`${apiUrl}/users`).then(async (res) => {
-    //   if (res.ok) {
-    //     setUsers(await res.json());
-    //   }
-    // });
-  });
+  // useMount(() => {
+  //   client("users").then(setUsers);
+  //   // fetch(`${apiUrl}/users`).then(async (res) => {
+  //   //   if (res.ok) {
+  //   //     setUsers(await res.json());
+  //   //   }
+  //   // });
+  // });
 
   const Container = styled.div`
     padding: 3rem;
@@ -63,11 +67,11 @@ export const ProjectListScreen = () => {
   return (
     <Container>
       <h2>Project List</h2>
-      <Search params={params} setParams={setParams} users={users} />
+      <Search params={params} setParams={setParams} users={users || []} />
       {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
       ) : null}
-      <List loading={isLoading} dataSource={list || []} users={users} />
+      <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   );
 };

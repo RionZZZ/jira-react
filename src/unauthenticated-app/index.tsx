@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import logo from "assets/logo.svg";
 import leftBg from "assets/left.svg";
 import rightBg from "assets/right.svg";
+import { useDocumentTitle } from "utils";
 
 const Container = styled.div`
   display: flex;
@@ -51,6 +52,8 @@ export const LongButton = styled(Button)`
 `;
 
 export const UnauthenticatedApp = () => {
+  useDocumentTitle("登录注册");
+
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   return (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { cleanObject, useMount, useDebounce } from "utils";
+import { cleanObject, useMount, useDebounce, useDocumentTitle } from "utils";
 import { List, Project } from "./list";
 import { Search } from "./search";
 // import qs from "qs";
@@ -11,6 +11,8 @@ import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 
 export const ProjectListScreen = () => {
+  useDocumentTitle("项目列表", false);
+
   const [params, setParams] = useState({
     name: "",
     personId: "",

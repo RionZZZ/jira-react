@@ -57,6 +57,13 @@ export const UnauthenticatedApp = () => {
     <Container>
       <Background />
       <Header />
+      <Button
+        onClick={() => {
+          throw new Error("throw error");
+        }}
+      >
+        throw error
+      </Button>
       <CardShadow>
         <Title>{isRegister ? "请注册" : "请登录"}</Title>
         {error ? (

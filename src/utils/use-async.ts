@@ -52,7 +52,7 @@ export const useAsync = <T>(
         return res;
       })
       .catch((error) => {
-        setError(error);
+        setError(error.data);
         if (config.throwOnError) {
           // catch的错误信息，不主动抛出，不会被外面接收到
           return Promise.reject(error);

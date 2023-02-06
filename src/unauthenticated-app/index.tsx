@@ -1,4 +1,4 @@
-import { Card, Button, Divider } from "antd";
+import { Card, Button, Divider, Typography } from "antd";
 import { useState } from "react";
 import { LoginScreen } from "./login";
 import { RegisterScreen } from "./register";
@@ -52,13 +52,21 @@ export const LongButton = styled(Button)`
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
   return (
     <Container>
       <Background />
       <Header />
       <CardShadow>
         <Title>{isRegister ? "请注册" : "请登录"}</Title>
-        {isRegister ? <RegisterScreen /> : <LoginScreen />}
+        {error ? (
+          <Typography.Text type="danger">{error.message}</Typography.Text>
+        ) : null}
+        {isRegister ? (
+          <RegisterScreen onError={setError} />
+        ) : (
+          <LoginScreen onError={setError} />
+        )}
         <Divider />
         <LongButton
           type="text"

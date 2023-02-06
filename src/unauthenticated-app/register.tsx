@@ -1,9 +1,13 @@
 import { useAuth } from "context/auth-context";
-import { Form, Input, Button } from "antd";
+import { Form, Input } from "antd";
 import { LongButton } from "unauthenticated-app";
+import { useAsync } from "utils/use-async";
 
-export const RegisterScreen: React.FC = () => {
+export const RegisterScreen: React.FC<{
+  onError: (error: Error) => void;
+}> = ({ onError }) => {
   const { register } = useAuth();
+  const { run, isLoading } = useAsync();
 
   // const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
   //   evt.preventDefault();
@@ -12,8 +16,19 @@ export const RegisterScreen: React.FC = () => {
   //   register({ username, password });
   // };
 
-  const handleSubmit = (values: { username: string; password: string }) => {
-    register(values);
+  const handleSubmit = ({
+    cpassword,
+    ...values
+  }: {
+    username: string;
+    password: string;
+    cpassword: string;
+  }) => {
+    if (!cpassword || cpassword !== values.password) {
+      onError(new Error("请确认两次输入密码相同"));
+      return;
+    }
+    run(register(values).catch(onError));
   };
 
   return (
@@ -30,8 +45,14 @@ export const RegisterScreen: React.FC = () => {
       >
         <Input placeholder="pwd" type="password" id={"password"} />
       </Form.Item>
+      <Form.Item
+        name={"cpassword"}
+        rules={[{ required: true, message: "confirm pwd!" }]}
+      >
+        <Input placeholder="cpwd" type="password" id={"cpassword"} />
+      </Form.Item>
       <Form.Item>
-        <LongButton htmlType="submit" type="primary">
+        <LongButton loading={isLoading} htmlType="submit" type="primary">
           register
         </LongButton>
       </Form.Item>

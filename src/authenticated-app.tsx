@@ -3,7 +3,10 @@ import { Button, Dropdown, MenuProps } from "antd";
 import { Row } from "components/lib";
 import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "screens/project-list";
+import { ProjectScreen } from "screens/project";
 import { ReactComponent as Logo } from "assets/software-logo.svg";
+import { Navigate, Route, Routes } from "react-router";
+import { BrowserRouter } from "react-router-dom";
 
 const Container = styled.div`
   display: grid;
@@ -21,8 +24,25 @@ const Main = styled.main``;
 const Footer = styled.footer``;
 
 export const AuthenticatedApp = () => {
-  const { logout, user } = useAuth();
+  return (
+    <Container>
+      <PageHeader />
+      <Main>
+        {/* <ProjectListScreen /> */}
+        <BrowserRouter>
+          <Routes>
+            <Route path="/projects" element={<ProjectListScreen />} />
+            <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
+          </Routes>
+        </BrowserRouter>
+      </Main>
+      <Footer></Footer>
+    </Container>
+  );
+};
 
+const PageHeader = () => {
+  const { logout, user } = useAuth();
   const menuItems: MenuProps["items"] = [
     {
       key: "logout",
@@ -35,24 +55,18 @@ export const AuthenticatedApp = () => {
   ];
 
   return (
-    <Container>
-      <Header between={true}>
-        <HeaderLeft gap={true}>
-          {/* <img src={logo} alt="logo" /> */}
-          <Logo width={"18rem"} color={"#1B75F0"} />
-          <h3>logo</h3>
-          <h3>logo</h3>
-        </HeaderLeft>
-        <HeaderRight>
-          <Dropdown menu={{ items: menuItems }}>
-            <Button type="link">Hi,{user?.name}</Button>
-          </Dropdown>
-        </HeaderRight>
-      </Header>
-      <Main>
-        <ProjectListScreen />
-      </Main>
-      <Footer></Footer>
-    </Container>
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        {/* <img src={logo} alt="logo" /> */}
+        <Logo width={"18rem"} color={"#1B75F0"} />
+        <h3>logo</h3>
+        <h3>logo</h3>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown menu={{ items: menuItems }}>
+          <Button type="link">Hi,{user?.name}</Button>
+        </Dropdown>
+      </HeaderRight>
+    </Header>
   );
 };

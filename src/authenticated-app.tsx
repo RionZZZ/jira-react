@@ -7,6 +7,7 @@ import { ProjectScreen } from "screens/project";
 import { ReactComponent as Logo } from "assets/software-logo.svg";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
+import { resetRoute } from "utils";
 
 const Container = styled.div`
   display: grid;
@@ -33,6 +34,7 @@ export const AuthenticatedApp = () => {
           <Routes>
             <Route path="/projects" element={<ProjectListScreen />} />
             <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
+            <Route path="*" element={<Navigate to="/projects" />} />
           </Routes>
         </BrowserRouter>
       </Main>
@@ -58,7 +60,9 @@ const PageHeader = () => {
     <Header between={true}>
       <HeaderLeft gap={true}>
         {/* <img src={logo} alt="logo" /> */}
-        <Logo width={"18rem"} color={"#1B75F0"} />
+        <Button type="link" onClick={resetRoute}>
+          <Logo width={"18rem"} color={"#1B75F0"} />
+        </Button>
         <h3>logo</h3>
         <h3>logo</h3>
       </HeaderLeft>

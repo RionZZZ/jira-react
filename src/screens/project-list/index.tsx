@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { cleanObject, useMount, useDebounce, useDocumentTitle } from "utils";
 import { List, Project } from "./list";
 import { Search } from "./search";
@@ -9,14 +9,24 @@ import { Typography } from "antd";
 // import { useAsync } from "utils/use-async";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
+import { useUrlQueryParam } from "utils/url";
+
+const Container = styled.div`
+  padding: 3rem;
+`;
 
 export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
 
-  const [params, setParams] = useState({
-    name: "",
-    personId: "",
-  });
+  // const [, setParams] = useState({
+  //   name: "",
+  //   personId: "",
+  // });
+
+  // keys参数是引用类型，对比时每次都会重新渲染
+  // 将keys放到state里面就没问题
+  const [keys] = useState<("name" | "personId")[]>(["name", "personId"]);
+  const [params, setParams] = useUrlQueryParam(keys);
 
   const debouncedParams = useDebounce(params, 500);
 
@@ -62,10 +72,6 @@ export const ProjectListScreen = () => {
   //   // });
   // });
 
-  const Container = styled.div`
-    padding: 3rem;
-  `;
-
   return (
     <Container>
       <h2>Project List</h2>
@@ -77,3 +83,5 @@ export const ProjectListScreen = () => {
     </Container>
   );
 };
+
+ProjectListScreen.whyDidYouRender = true;

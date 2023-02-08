@@ -57,6 +57,7 @@
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
     "@craco/craco": "^7.0.0",
+    "@welldone-software/why-did-you-render": "^7.0.1",
     "eslint-config-prettier": "^8.6.0",
     "husky": "^8.0.3",
     "json-server": "^0.17.1",

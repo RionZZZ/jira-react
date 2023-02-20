@@ -10,6 +10,7 @@ import { Typography } from "antd";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { useUrlQueryParam } from "utils/url";
+import { useProjectsSearchParams } from "./util";
 
 const Container = styled.div`
   padding: 3rem;
@@ -25,9 +26,10 @@ export const ProjectListScreen = () => {
 
   // keys参数是引用类型，对比时每次都会重新渲染
   // 将keys放到state里面就没问题
-  const [keys] = useState<("name" | "personId")[]>(["name", "personId"]);
-  const [params, setParams] = useUrlQueryParam(keys);
+  // const [keys] = useState<("name" | "personId")[]>(["name", "personId"]);
+  // const [params, setParams] = useUrlQueryParam(keys);
 
+  const [params, setParams] = useProjectsSearchParams();
   const debouncedParams = useDebounce(params, 500);
 
   // const [list, setList] = useState([]);

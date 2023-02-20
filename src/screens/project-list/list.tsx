@@ -3,14 +3,14 @@ import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
 export interface User {
-  id: string;
+  id: number;
   name: string;
   token: string;
 }
 export interface Project {
-  id: string;
+  id: number;
   name: string;
-  personId: string;
+  personId: number;
   organization: string;
   created?: number;
 }

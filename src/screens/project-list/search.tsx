@@ -1,13 +1,15 @@
 /* @jsxImportSource @emotion/react */
 import { Form, Input, Select } from "antd";
-import { User } from "./list";
+import { UserSelect } from "components/user-select";
+import { Project, User } from "./list";
 
 interface SearchProps {
   users: User[];
-  params: {
-    name: string;
-    personId: string;
-  };
+  params: Partial<Pick<Project, "name" | "personId">>;
+  // params: {
+  //   name: number;
+  //   personId: number;
+  // };
   setParams: (params: SearchProps["params"]) => void;
 }
 
@@ -25,7 +27,12 @@ export const Search: React.FC<SearchProps> = ({ users, params, setParams }) => {
         />
       </Form.Item>
       <Form.Item>
-        <Select
+        <UserSelect
+          value={params.personId}
+          onChange={(personId) => setParams({ ...params, personId })}
+          defaultOptionName="负责人"
+        />
+        {/* <Select
           value={params.personId}
           onChange={(personId) => setParams({ ...params, personId })}
         >
@@ -35,7 +42,7 @@ export const Search: React.FC<SearchProps> = ({ users, params, setParams }) => {
               {user.name}
             </Select.Option>
           ))}
-        </Select>
+        </Select> */}
       </Form.Item>
     </Form>
   );

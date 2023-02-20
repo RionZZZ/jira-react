@@ -27,6 +27,9 @@ export const useAsync = <T>(
     ...initialState,
   });
 
+  // 惰性初始化，多返回一层来解决
+  const [retry, setRetry] = useState(() => () => {});
+
   const setData = (data: T) => {
     setState({
       data,
@@ -41,10 +44,22 @@ export const useAsync = <T>(
       error,
     });
   };
-  const run = (promise: Promise<T>) => {
+  const run = (
+    promise: Promise<T>,
+    runConfig?: { retry: () => Promise<T> }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error("must promise");
     }
+
+    setRetry(() => () => {
+      // 不会起作用，只是返回了一个被调用过的promise，不会重新调用
+      // run(promise);
+      if (runConfig?.retry) {
+        run(runConfig.retry(), runConfig);
+      }
+    });
+
     setState({ ...state, status: "loading" });
     return promise
       .then((res) => {
@@ -70,6 +85,7 @@ export const useAsync = <T>(
     setData,
     setError,
     run,
+    retry,
     ...state,
   };
 };

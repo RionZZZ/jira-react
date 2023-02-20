@@ -39,7 +39,7 @@ export const ProjectListScreen = () => {
 
   // const client = useHttp();
   // const { run, isLoading, error, data: list } = useAsync<Project[]>();
-  const { isLoading, error, data: list } = useProjects(debouncedParams);
+  const { isLoading, error, data: list, retry } = useProjects(debouncedParams);
   const { data: users } = useUsers();
 
   // useEffect(() => {
@@ -81,7 +81,12 @@ export const ProjectListScreen = () => {
       {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
       ) : null}
-      <List loading={isLoading} dataSource={list || []} users={users || []} />
+      <List
+        refresh={retry}
+        loading={isLoading}
+        dataSource={list || []}
+        users={users || []}
+      />
     </Container>
   );
 };

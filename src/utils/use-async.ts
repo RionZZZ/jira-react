@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMountedRef } from "utils";
 
 interface State<T> {
   error: Error | null;
@@ -29,6 +30,8 @@ export const useAsync = <T>(
 
   // 惰性初始化，多返回一层来解决
   const [retry, setRetry] = useState(() => () => {});
+
+  const mountedRef = useMountedRef();
 
   const setData = (data: T) => {
     setState({
@@ -63,7 +66,9 @@ export const useAsync = <T>(
     setState({ ...state, status: "loading" });
     return promise
       .then((res) => {
-        setData(res);
+        if (mountedRef.current) {
+          setData(res);
+        }
         return res;
       })
       .catch((error) => {

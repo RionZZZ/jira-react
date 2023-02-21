@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useReducer, useState } from "react";
 import { useMountedRef } from "utils";
 
 interface State<T> {
@@ -17,36 +17,58 @@ const defaultConfig = {
   throwOnError: false,
 };
 
+const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
+  const mountedRef = useMountedRef();
+  return useCallback(
+    (...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),
+    [dispatch, mountedRef]
+  );
+};
+
 export const useAsync = <T>(
   initialState?: State<T>,
   initialConfig?: typeof defaultConfig
 ) => {
   const config = { ...defaultConfig, ...initialConfig };
 
-  const [state, setState] = useState<State<T>>({
-    ...defaultState,
-    ...initialState,
-  });
+  // const [state, setState] = useState<State<T>>({
+  //   ...defaultState,
+  //   ...initialState,
+  // });
+  const [state, dispatch] = useReducer(
+    (state: State<T>, action: Partial<State<T>>) => ({ ...state, ...action }),
+    {
+      ...defaultState,
+      ...initialState,
+    } as State<T>
+  );
 
   // 惰性初始化，多返回一层来解决
   const [retry, setRetry] = useState(() => () => {});
 
-  const mountedRef = useMountedRef();
+  // const mountedRef = useMountedRef();
+  const safeDispatch = useSafeDispatch(dispatch);
 
-  const setData = useCallback((data: T) => {
-    setState({
-      data,
-      status: "success",
-      error: null,
-    });
-  }, []);
-  const setError = useCallback((error: Error) => {
-    setState({
-      data: null,
-      status: "error",
-      error,
-    });
-  }, []);
+  const setData = useCallback(
+    (data: T) => {
+      safeDispatch({
+        data,
+        status: "success",
+        error: null,
+      });
+    },
+    [safeDispatch]
+  );
+  const setError = useCallback(
+    (error: Error) => {
+      safeDispatch({
+        data: null,
+        status: "error",
+        error,
+      });
+    },
+    [safeDispatch]
+  );
 
   // 非基本类型，想要加入依赖，就需要用到useMemo和useCallback
   // 避免每次在页面渲染时都重新创建（新指针），导致页面死循环
@@ -66,12 +88,13 @@ export const useAsync = <T>(
 
       // 此时直接setState会直接触发callback依赖里的state，造成无限循环
       // setState({ ...state, status: "loading" });
-      setState((prevState) => ({ ...prevState, status: "loading" }));
+      // dispatch((prevState) => ({ ...prevState, status: "loading" }));
+      safeDispatch({ status: "loading" });
       return promise
         .then((res) => {
-          if (mountedRef.current) {
-            setData(res);
-          }
+          // if (mountedRef.current) {
+          setData(res);
+          // }
           return res;
         })
         .catch((error) => {
@@ -84,7 +107,7 @@ export const useAsync = <T>(
           }
         });
     },
-    [config.throwOnError, mountedRef, setData, setError]
+    [config.throwOnError, safeDispatch, setData, setError]
   );
 
   return {

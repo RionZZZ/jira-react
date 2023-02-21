@@ -1,4 +1,5 @@
-import { Table, TableProps } from "antd";
+import { Button, Dropdown, MenuProps, Table, TableProps } from "antd";
+import { ButtonNoPadding } from "components/lib";
 import { Pin } from "components/pin";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
@@ -21,12 +22,27 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
+  projectButton: JSX.Element;
 }
 
-export const List: React.FC<ListProps> = ({ users, refresh, ...props }) => {
+export const List: React.FC<ListProps> = ({
+  users,
+  refresh,
+  projectButton,
+  ...props
+}) => {
   const { mutate } = useEditProject();
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({ id, pin }).then(refresh);
+
+  const menuItems: MenuProps["items"] = [
+    {
+      key: "edit",
+      // label: <ButtonNoPadding type="link">edit</ButtonNoPadding>,
+      label: projectButton,
+    },
+  ];
+
   return (
     <Table
       pagination={false}
@@ -76,6 +92,16 @@ export const List: React.FC<ListProps> = ({ users, refresh, ...props }) => {
                   ? dayjs(project.created).format("YYYY-MM-DD")
                   : "-"}
               </span>
+            );
+          },
+        },
+        {
+          title: "创建时间",
+          render(value, project) {
+            return (
+              <Dropdown menu={{ items: menuItems }}>
+                <ButtonNoPadding type="link">...</ButtonNoPadding>
+              </Dropdown>
             );
           },
         },

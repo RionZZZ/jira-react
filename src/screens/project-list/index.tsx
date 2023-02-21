@@ -5,18 +5,23 @@ import { Search } from "./search";
 // import qs from "qs";
 // import { useHttp } from "utils/http";
 import styled from "@emotion/styled";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 // import { useAsync } from "utils/use-async";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { useUrlQueryParam } from "utils/url";
 import { useProjectsSearchParams } from "./util";
+import { Row } from "components/lib";
 
 const Container = styled.div`
   padding: 3rem;
 `;
 
-export const ProjectListScreen = () => {
+export const ProjectListScreen = ({
+  projectButton,
+}: {
+  projectButton: JSX.Element;
+}) => {
   useDocumentTitle("项目列表", false);
 
   // const [, setParams] = useState({
@@ -76,7 +81,10 @@ export const ProjectListScreen = () => {
 
   return (
     <Container>
-      <h2>Project List</h2>
+      <Row between>
+        <h2>Project List</h2>
+        {projectButton}
+      </Row>
       <Search params={params} setParams={setParams} users={users || []} />
       {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
@@ -86,6 +94,7 @@ export const ProjectListScreen = () => {
         loading={isLoading}
         dataSource={list || []}
         users={users || []}
+        projectButton={projectButton}
       />
     </Container>
   );

@@ -44,6 +44,24 @@ export const AuthenticatedApp = () => {
 };
 
 const PageHeader = () => {
+  return (
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        {/* <img src={logo} alt="logo" /> */}
+        <Button type="link" onClick={resetRoute}>
+          <Logo width={"18rem"} color={"#1B75F0"} />
+        </Button>
+        <h3>项目</h3>
+        <h3>用户</h3>
+      </HeaderLeft>
+      <HeaderRight>
+        <User />
+      </HeaderRight>
+    </Header>
+  );
+};
+
+const User = () => {
   const { logout, user } = useAuth();
   const menuItems: MenuProps["items"] = [
     {
@@ -55,22 +73,9 @@ const PageHeader = () => {
       ),
     },
   ];
-
   return (
-    <Header between={true}>
-      <HeaderLeft gap={true}>
-        {/* <img src={logo} alt="logo" /> */}
-        <Button type="link" onClick={resetRoute}>
-          <Logo width={"18rem"} color={"#1B75F0"} />
-        </Button>
-        <h3>logo</h3>
-        <h3>logo</h3>
-      </HeaderLeft>
-      <HeaderRight>
-        <Dropdown menu={{ items: menuItems }}>
-          <Button type="link">Hi,{user?.name}</Button>
-        </Dropdown>
-      </HeaderRight>
-    </Header>
+    <Dropdown menu={{ items: menuItems }}>
+      <Button type="link">Hi,{user?.name}</Button>
+    </Dropdown>
   );
 };

@@ -1,4 +1,4 @@
-import { Button, Dropdown, MenuProps, Table, TableProps } from "antd";
+import { Dropdown, MenuProps, Table, TableProps } from "antd";
 import { ButtonNoPadding } from "components/lib";
 import { Pin } from "components/pin";
 import dayjs from "dayjs";

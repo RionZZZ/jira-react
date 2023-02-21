@@ -7,7 +7,7 @@ export const ProjectPopover = ({
 }: {
   projectButton: JSX.Element;
 }) => {
-  const { data: projects, isLoading } = useProjects();
+  const { data: projects } = useProjects();
   const pinnedProjects = projects?.filter((project) => project.pin);
 
   const content = (

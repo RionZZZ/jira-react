@@ -11,17 +11,15 @@ import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { useUrlQueryParam } from "utils/url";
 import { useProjectsSearchParams } from "./util";
-import { Row } from "components/lib";
+import { ButtonNoPadding, Row } from "components/lib";
+import { projectListActions } from "./project-list.slice";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div`
   padding: 3rem;
 `;
 
-export const ProjectListScreen = ({
-  projectButton,
-}: {
-  projectButton: JSX.Element;
-}) => {
+export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
 
   // const [, setParams] = useState({
@@ -79,11 +77,17 @@ export const ProjectListScreen = ({
   //   // });
   // });
 
+  const dispatch = useDispatch();
   return (
     <Container>
       <Row between>
         <h2>Project List</h2>
-        {projectButton}
+        <ButtonNoPadding
+          type="link"
+          onClick={() => dispatch(projectListActions.openProjectModal())}
+        >
+          创建项目
+        </ButtonNoPadding>
       </Row>
       <Search params={params} setParams={setParams} users={users || []} />
       {error ? (
@@ -94,7 +98,6 @@ export const ProjectListScreen = ({
         loading={isLoading}
         dataSource={list || []}
         users={users || []}
-        projectButton={projectButton}
       />
     </Container>
   );

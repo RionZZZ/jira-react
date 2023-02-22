@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "store";
 
 interface State {
   modalOpen: boolean;
@@ -12,13 +13,16 @@ export const projectListSlice = createSlice({
   name: "projectListSlice",
   initialState,
   reducers: {
-    openProjectModal(state, action) {
+    openProjectModal(state) {
       state.modalOpen = true;
     },
-    closeProjectModal(state, action) {
+    closeProjectModal(state) {
       state.modalOpen = false;
     },
   },
 });
 
 export const projectListActions = projectListSlice.actions;
+
+export const selectProjectModalOpen = (state: RootState) =>
+  state.projectList.modalOpen;

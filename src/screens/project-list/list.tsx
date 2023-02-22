@@ -2,8 +2,10 @@ import { Dropdown, MenuProps, Table, TableProps } from "antd";
 import { ButtonNoPadding } from "components/lib";
 import { Pin } from "components/pin";
 import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useEditProject } from "utils/project";
+import { projectListActions } from "./project-list.slice";
 
 export interface User {
   id: number;
@@ -22,24 +24,27 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  projectButton: JSX.Element;
 }
 
-export const List: React.FC<ListProps> = ({
-  users,
-  refresh,
-  projectButton,
-  ...props
-}) => {
+export const List: React.FC<ListProps> = ({ users, refresh, ...props }) => {
   const { mutate } = useEditProject();
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({ id, pin }).then(refresh);
 
+  const dispatch = useDispatch();
   const menuItems: MenuProps["items"] = [
     {
       key: "edit",
-      // label: <ButtonNoPadding type="link">edit</ButtonNoPadding>,
-      label: projectButton,
+      label: (
+        <ButtonNoPadding
+          type="link"
+          onClick={() => {
+            dispatch(projectListActions.openProjectModal);
+          }}
+        >
+          edit
+        </ButtonNoPadding>
+      ),
     },
   ];
 

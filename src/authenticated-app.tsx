@@ -27,13 +27,13 @@ const HeaderRight = styled.div``;
 const Main = styled.main``;
 
 export const AuthenticatedApp = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <Container>
       <PageHeader
         projectButton={
-          <ButtonNoPadding type={"link"} onClick={() => setOpenModal(true)}>
+          <ButtonNoPadding type={"link"} onClick={() => setModalOpen(true)}>
             创建项目
           </ButtonNoPadding>
         }
@@ -49,7 +49,7 @@ export const AuthenticatedApp = () => {
                   projectButton={
                     <ButtonNoPadding
                       type={"link"}
-                      onClick={() => setOpenModal(true)}
+                      onClick={() => setModalOpen(true)}
                     >
                       创建项目
                     </ButtonNoPadding>
@@ -62,7 +62,7 @@ export const AuthenticatedApp = () => {
           </Routes>
         </BrowserRouter>
       </Main>
-      <ProjectModal openModal={openModal} onClose={() => setOpenModal(false)} />
+      <ProjectModal modalOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </Container>
   );
 };

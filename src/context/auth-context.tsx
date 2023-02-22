@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useState } from "react";
 import * as auth from "auth-provide";
 import { User } from "screens/project-list/list";
@@ -6,13 +6,15 @@ import { http } from "utils/http";
 import { useMount } from "utils";
 import { useAsync } from "utils/use-async";
 import { FullPageError, FullPageLoading } from "components/lib";
+import { useDispatch, useSelector } from "react-redux";
+import * as authStore from "store/auth.slice";
 
-interface AuthForm {
+export interface AuthForm {
   username: string;
   password: string;
 }
 
-const bootstrapUser = async () => {
+export const bootstrapUser = async () => {
   let user = null;
   const token = auth.getToken();
   if (token) {
@@ -50,9 +52,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const register = (form: AuthForm) => auth.register(form).then(setUser);
   const logout = () => auth.logout().then(() => setUser(null));
 
+  const dispatch: (...args: any[]) => Promise<User> = useDispatch();
   useMount(() => {
     // bootstrapUser().then(setUser);
-    run(bootstrapUser());
+    // run(bootstrapUser());
+    run(dispatch(authStore.bootstrap()));
   });
   if (isIdle || isLoading) {
     return <FullPageLoading />;
@@ -61,18 +65,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return <FullPageError error={error} />;
   }
 
-  return (
-    <AuthContext.Provider
-      children={children}
-      value={{ user, login, register, logout }}
-    />
-  );
+  // return (
+  //   <AuthContext.Provider
+  //     children={children}
+  //     value={{ user, login, register, logout }}
+  //   />
+  // );
+  return <div>{children}</div>;
 };
 
 export const useAuth = () => {
-  const context = React.useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be in AuthProvider");
-  }
-  return context;
+  // const context = React.useContext(AuthContext);
+  // if (!context) {
+  //   throw new Error("useAuth must be in AuthProvider");
+  // }
+  // return context;
+  const user = useSelector(authStore.selectUser);
+  const dispatch: (...args: any[]) => Promise<User> = useDispatch();
+  const login = useCallback(
+    (form: AuthForm) => dispatch(authStore.login(form)),
+    [dispatch]
+  );
+  const register = useCallback(
+    (form: AuthForm) => dispatch(authStore.register(form)),
+    [dispatch]
+  );
+  const logout = useCallback(() => dispatch(authStore.logout()), [dispatch]);
+  return { user, login, register, logout };
 };

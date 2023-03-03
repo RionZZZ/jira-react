@@ -4,6 +4,7 @@ import { Pin } from "components/pin";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { useEditProject } from "utils/project";
+import { useProjectModal } from "./util";
 
 export interface User {
   id: number;
@@ -22,24 +23,31 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  projectButton: JSX.Element;
+  // projectButton: JSX.Element;
 }
 
 export const List: React.FC<ListProps> = ({
   users,
   refresh,
-  projectButton,
+  // projectButton,
   ...props
 }) => {
   const { mutate } = useEditProject();
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({ id, pin }).then(refresh);
 
+  const { open } = useProjectModal();
+
   const menuItems: MenuProps["items"] = [
     {
       key: "edit",
       // label: <ButtonNoPadding type="link">edit</ButtonNoPadding>,
-      label: projectButton,
+      // label: projectButton,
+      label: (
+        <ButtonNoPadding type={"link"} onClick={open}>
+          创建项目
+        </ButtonNoPadding>
+      ),
     },
   ];
 

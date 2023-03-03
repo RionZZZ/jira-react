@@ -22,21 +22,26 @@ export interface Project {
 
 interface ListProps extends TableProps<Project> {
   users: User[];
-  refresh?: () => void;
+  // refresh?: () => void;
   // projectButton: JSX.Element;
 }
 
 export const List: React.FC<ListProps> = ({
   users,
-  refresh,
+  // refresh,
   // projectButton,
   ...props
 }) => {
   const { mutate } = useEditProject();
   const pinProject = (id: number) => (pin: boolean) =>
-    mutate({ id, pin }).then(refresh);
+    // mutate({ id, pin }).then(refresh);
+    mutate({ id, pin });
 
-  const { open } = useProjectModal();
+  const { startEdit } = useProjectModal();
+
+  const editProject = (id: number) => startEdit(id);
+
+  const handleDelete = () => {};
 
   const menuItems: MenuProps["items"] = [
     {
@@ -44,8 +49,16 @@ export const List: React.FC<ListProps> = ({
       // label: <ButtonNoPadding type="link">edit</ButtonNoPadding>,
       // label: projectButton,
       label: (
-        <ButtonNoPadding type={"link"} onClick={open}>
-          创建项目
+        <ButtonNoPadding type={"link"} onClick={() => editProject(1)}>
+          edit
+        </ButtonNoPadding>
+      ),
+    },
+    {
+      key: "delete",
+      label: (
+        <ButtonNoPadding type={"link"} onClick={handleDelete}>
+          delete
         </ButtonNoPadding>
       ),
     },

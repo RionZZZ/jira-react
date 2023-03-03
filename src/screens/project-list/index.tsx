@@ -11,7 +11,7 @@ import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { useUrlQueryParam } from "utils/url";
 import { useProjectModal, useProjectsSearchParams } from "./util";
-import { ButtonNoPadding, Row } from "components/lib";
+import { ButtonNoPadding, ErrorBox, Row } from "components/lib";
 
 const Container = styled.div`
   padding: 3rem;
@@ -40,7 +40,8 @@ export const ProjectListScreen = () => {
 
   // const client = useHttp();
   // const { run, isLoading, error, data: list } = useAsync<Project[]>();
-  const { isLoading, error, data: list, retry } = useProjects(debouncedParams);
+  // const { isLoading, error, data: list, retry } = useProjects(debouncedParams);
+  const { isLoading, error, data: list } = useProjects(debouncedParams);
   const { data: users } = useUsers();
 
   // useEffect(() => {
@@ -87,10 +88,11 @@ export const ProjectListScreen = () => {
       </Row>
       <Search params={params} setParams={setParams} users={users || []} />
       {error ? (
-        <Typography.Text type="danger">{error.message}</Typography.Text>
-      ) : null}
+        <ErrorBox error={error} />
+      ) : // <Typography.Text type="danger">{error.message}</Typography.Text>
+      null}
       <List
-        refresh={retry}
+        // refresh={retry}
         loading={isLoading}
         dataSource={list || []}
         users={users || []}

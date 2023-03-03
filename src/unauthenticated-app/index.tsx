@@ -7,6 +7,7 @@ import logo from "assets/logo.svg";
 import leftBg from "assets/left.svg";
 import rightBg from "assets/right.svg";
 import { useDocumentTitle } from "utils";
+import { ErrorBox } from "components/lib";
 
 const Container = styled.div`
   display: flex;
@@ -70,8 +71,9 @@ export const UnauthenticatedApp = () => {
       <CardShadow>
         <Title>{isRegister ? "请注册" : "请登录"}</Title>
         {error ? (
-          <Typography.Text type="danger">{error.message}</Typography.Text>
-        ) : null}
+          <ErrorBox error={error} />
+        ) : // <Typography.Text type="danger">{error.message}</Typography.Text>
+        null}
         {isRegister ? (
           <RegisterScreen onError={setError} />
         ) : (

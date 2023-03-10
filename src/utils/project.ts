@@ -1,6 +1,8 @@
+import { Item } from "rc-menu";
 import { useCallback, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Project } from "screens/project-list/list";
+import { useProjectsSearchParams } from "screens/project-list/util";
 import { cleanObject } from "utils";
 import { useHttp } from "./http";
 import { useAsync } from "./use-async";
@@ -33,11 +35,33 @@ export const useEditProject = () => {
   //   run(client(`projects/${params.id}`, { data: params, method: "PATCH" }));
   // return { mutate, ...result };
   const queryClient = useQueryClient();
+
+  const [searchParams] = useProjectsSearchParams();
+  const queryKey = ["projects", searchParams];
+
   return useMutation(
     (params: Partial<Project>) =>
       client(`projects/${params.id}`, { data: params, method: "PATCH" }),
     {
-      onSuccess: () => queryClient.invalidateQueries("projects"),
+      // onSuccess: () => queryClient.invalidateQueries("projects"),
+      onSuccess: () => queryClient.invalidateQueries(queryKey),
+      async onMutate(target) {
+        const previousItems = queryClient.getQueryData(queryKey);
+        queryClient.setQueryData(queryKey, (old?: Project[]) => {
+          return (
+            old?.map((project) =>
+              project.id === target.id ? { ...project, ...target } : project
+            ) || []
+          );
+        });
+        return previousItems;
+      },
+      onError(err, newItem, context) {
+        queryClient.setQueryData(
+          queryKey,
+          (context as { previousItems: Project[] }).previousItems
+        );
+      },
     }
   );
 };

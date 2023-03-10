@@ -18,11 +18,15 @@ export const IdSelect: React.FC<IdSelectProps> = (props) => {
   return (
     <Select
       value={options?.length ? toNumber(value) : 0}
-      onChange={(value) => onChange?.(toNumber(value) || undefined)}
+      onChange={(value) => {
+        onChange?.(toNumber(value));
+      }}
       {...restProps}
     >
       {defaultOptionName ? (
-        <Select.Option value={0}>{defaultOptionName}</Select.Option>
+        <Select.Option key={0} value={0}>
+          {defaultOptionName}
+        </Select.Option>
       ) : null}
       {options?.map((option) => (
         <Select.Option key={option.id} value={option.id}>

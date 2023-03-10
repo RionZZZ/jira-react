@@ -43,13 +43,13 @@ export const List: React.FC<ListProps> = ({
 
   const handleDelete = () => {};
 
-  const menuItems: MenuProps["items"] = [
+  const menuItems: (id: number) => MenuProps["items"] = (id) => [
     {
       key: "edit",
       // label: <ButtonNoPadding type="link">edit</ButtonNoPadding>,
       // label: projectButton,
       label: (
-        <ButtonNoPadding type={"link"} onClick={() => editProject(1)}>
+        <ButtonNoPadding type={"link"} onClick={() => editProject(id)}>
           edit
         </ButtonNoPadding>
       ),
@@ -99,7 +99,7 @@ export const List: React.FC<ListProps> = ({
             return (
               <span>
                 {users.find((user) => user.id === project.personId)?.name ||
-                  "unknown"}
+                  "佚名"}
               </span>
             );
           },
@@ -117,10 +117,10 @@ export const List: React.FC<ListProps> = ({
           },
         },
         {
-          title: "创建时间",
+          title: "操作",
           render(value, project) {
             return (
-              <Dropdown menu={{ items: menuItems }}>
+              <Dropdown menu={{ items: menuItems(project.id) }}>
                 <ButtonNoPadding type="link">...</ButtonNoPadding>
               </Dropdown>
             );

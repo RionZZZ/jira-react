@@ -26,10 +26,12 @@ export const useProjectModal = () => {
   ]);
   const { data: editingProject, isLoading } = useProject(+editingProjectId);
 
-  const open = () => setProjectCreate({ projectCreate: true });
+  const open = () => {
+    setProjectCreate({ projectCreate: true });
+  };
   const close = () => {
-    setProjectCreate({ projectCreate: undefined });
-    setEditingProjectId({ editingProjectId: undefined });
+    projectCreate && setProjectCreate({ projectCreate: undefined });
+    editingProjectId && setEditingProjectId({ editingProjectId: undefined });
   };
   // return [projectCreate === "true", open, close] as const;
 

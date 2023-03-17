@@ -34,16 +34,21 @@ export const ProjectModal = () =>
 
     const handleSubmit = (values: Project) => {
       mutateAsync({ ...editingProject, ...values }).then(() => {
-        form.resetFields();
-        close();
+        closeModal();
       });
     };
+
+    const closeModal = () => {
+      form.resetFields();
+      close();
+    };
+
     return (
       <Drawer
         forceRender
         open={projectModalOpen}
         width={"100%"}
-        onClose={close}
+        onClose={closeModal}
       >
         <Container>
           {isLoading ? (

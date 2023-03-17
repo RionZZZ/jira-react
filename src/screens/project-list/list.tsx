@@ -1,10 +1,10 @@
-import { Dropdown, MenuProps, Table, TableProps } from "antd";
+import { Dropdown, MenuProps, Modal, Table, TableProps } from "antd";
 import { ButtonNoPadding } from "components/lib";
 import { Pin } from "components/pin";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import { useEditProject } from "utils/project";
-import { useProjectModal } from "./util";
+import { useDeleteProject, useEditProject } from "utils/project";
+import { useProjectModal, useProjectQueryKey } from "./util";
 
 export interface User {
   id: number;
@@ -32,7 +32,7 @@ export const List: React.FC<ListProps> = ({
   // projectButton,
   ...props
 }) => {
-  const { mutate } = useEditProject();
+  const { mutate } = useEditProject(useProjectQueryKey());
   const pinProject = (id: number) => (pin: boolean) =>
     // mutate({ id, pin }).then(refresh);
     mutate({ id, pin });
@@ -41,7 +41,17 @@ export const List: React.FC<ListProps> = ({
 
   const editProject = (id: number) => startEdit(id);
 
-  const handleDelete = () => {};
+  const { mutate: deleteProject } = useDeleteProject(useProjectQueryKey());
+  const handleDelete = (id: number) => {
+    Modal.confirm({
+      title: "confirm delete?",
+      content: "click ok",
+      okText: "ok",
+      onOk: () => {
+        deleteProject({ id });
+      },
+    });
+  };
 
   const menuItems: (id: number) => MenuProps["items"] = (id) => [
     {
@@ -57,7 +67,7 @@ export const List: React.FC<ListProps> = ({
     {
       key: "delete",
       label: (
-        <ButtonNoPadding type={"link"} onClick={handleDelete}>
+        <ButtonNoPadding type={"link"} onClick={() => handleDelete(id)}>
           delete
         </ButtonNoPadding>
       ),

@@ -6,7 +6,7 @@ import { UserSelect } from "components/user-select";
 import { useEffect } from "react";
 import { useAddProject, useEditProject } from "utils/project";
 import { Project } from "./list";
-import { useProjectModal } from "./util";
+import { useProjectModal, useProjectQueryKey } from "./util";
 
 export const ProjectModal = () =>
   //   {
@@ -26,7 +26,7 @@ export const ProjectModal = () =>
       mutateAsync,
       error,
       isLoading: isSubmitLoading,
-    } = useMutateProject();
+    } = useMutateProject(useProjectQueryKey());
 
     useEffect(() => {
       form.setFieldsValue(editingProject);

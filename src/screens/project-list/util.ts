@@ -17,6 +17,11 @@ export const useProjectsSearchParams = () => {
   ] as const;
 };
 
+export const useProjectQueryKey = () => {
+  const [searchParams] = useProjectsSearchParams();
+  return ["projects", searchParams];
+};
+
 export const useProjectModal = () => {
   const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
     "projectCreate",

@@ -26,3 +26,8 @@ export interface Epic {
   typeId: number;
   note: string;
 }
+
+export interface EpicType {
+  id: number;
+  name: string;
+}

@@ -4,21 +4,8 @@ import { Pin } from "components/pin";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { useDeleteProject, useEditProject } from "utils/project";
+import { Project, User } from "types/project";
 import { useProjectModal, useProjectQueryKey } from "./util";
-
-export interface User {
-  id: number;
-  name: string;
-  token: string;
-}
-export interface Project {
-  id: number;
-  name: string;
-  personId: number;
-  organization: string;
-  created?: number;
-  pin: boolean;
-}
 
 interface ListProps extends TableProps<Project> {
   users: User[];

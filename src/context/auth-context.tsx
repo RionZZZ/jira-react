@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import * as auth from "auth-provide";
-import { User } from "screens/project-list/list";
+import { User } from "types/project";
 import { http } from "utils/http";
 import { useMount } from "utils";
 import { useAsync } from "utils/use-async";

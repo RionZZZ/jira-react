@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { cleanObject, useMount, useDebounce, useDocumentTitle } from "utils";
-import { List, Project } from "./list";
+import { List } from "./list";
+import { Project } from "types/project";
 import { Search } from "./search";
 // import qs from "qs";
 // import { useHttp } from "utils/http";

@@ -1,4 +1,4 @@
-import { User } from "screens/project-list/list";
+import { User } from "types/project";
 
 const localStorageKey = "__auth_provide_token__";
 

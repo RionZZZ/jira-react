@@ -3,7 +3,6 @@ import {
   useDeleteConfig,
   useEditConfig,
 } from "./use-optimistic-options";
-import { Item } from "rc-menu";
 import { useCallback, useEffect } from "react";
 import { QueryKey, useMutation, useQuery, useQueryClient } from "react-query";
 import { Project } from "types/project";

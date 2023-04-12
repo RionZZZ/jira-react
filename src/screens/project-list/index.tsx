@@ -12,11 +12,12 @@ import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { useUrlQueryParam } from "utils/url";
 import { useProjectModal, useProjectsSearchParams } from "./util";
-import { ButtonNoPadding, ErrorBox, Row } from "components/lib";
-
-const Container = styled.div`
-  padding: 3rem;
-`;
+import {
+  ButtonNoPadding,
+  ErrorBox,
+  Row,
+  ScreenContainer,
+} from "components/lib";
 
 export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
@@ -80,7 +81,7 @@ export const ProjectListScreen = () => {
   const { open } = useProjectModal();
 
   return (
-    <Container>
+    <ScreenContainer>
       <Row between>
         <h2>Project List</h2>
         <ButtonNoPadding type={"link"} onClick={open}>
@@ -98,7 +99,7 @@ export const ProjectListScreen = () => {
         dataSource={list || []}
         users={users || []}
       />
-    </Container>
+    </ScreenContainer>
   );
 };
 

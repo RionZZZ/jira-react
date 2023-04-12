@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { ScreenContainer } from "components/lib";
 import { useDocumentTitle } from "utils";
 import { useBanners } from "utils/banner";
 import { BannerColumn } from "./banner-column";
@@ -12,7 +13,7 @@ export const BannerScreen = () => {
   const { data: banners } = useBanners(useBannerSearchParams());
 
   return (
-    <div>
+    <ScreenContainer>
       <h1>{currentProject?.name}看板</h1>
       <SearchPanel />
       <ColumnContainer>
@@ -20,12 +21,12 @@ export const BannerScreen = () => {
           <BannerColumn banner={banner} key={banner.id} />
         ))}
       </ColumnContainer>
-    </div>
+    </ScreenContainer>
   );
 };
 
 const ColumnContainer = styled.div`
   display: flex;
-  overflow: hidden;
-  margin-right: 2rem;
+  flex: 1;
+  overflow-x: auto;
 `;

@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useDocumentTitle } from "utils";
 import { useBanners } from "utils/banner";
 import { BannerColumn } from "./banner-column";
+import { SearchPanel } from "./search-panel";
 import { useBannerSearchParams, useProjectFromUrl } from "./util";
 
 export const BannerScreen = () => {
@@ -13,6 +14,7 @@ export const BannerScreen = () => {
   return (
     <div>
       <h1>{currentProject?.name}看板</h1>
+      <SearchPanel />
       <ColumnContainer>
         {banners?.map((banner) => (
           <BannerColumn banner={banner} key={banner.id} />

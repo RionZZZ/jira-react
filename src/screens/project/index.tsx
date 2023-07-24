@@ -55,4 +55,5 @@ const Aside = styled.aside`
 const Main = styled.main`
   display: flex;
   box-shadow: -5px 0 -5px 0 rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 `;

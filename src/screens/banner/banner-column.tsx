@@ -1,7 +1,7 @@
 import { Banner } from "types/project";
 import { useEpics } from "utils/epic";
 import { useEpicTypes } from "utils/epic-type";
-import { useEpicSearchParams } from "./util";
+import { useEpicModal, useEpicSearchParams } from "./util";
 import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
 import styled from "@emotion/styled";
@@ -19,14 +19,19 @@ export const BannerColumn = ({ banner }: { banner: Banner }) => {
   const { data: allEpics } = useEpics(useEpicSearchParams());
   const epics = allEpics?.filter((epic) => epic.kanbanId === banner.id);
 
+  const { startEdit } = useEpicModal();
   return (
     <Container>
       <h3>{banner.name}</h3>
       <EpicContainer>
-        {epics?.map((epics) => (
-          <Card style={{ marginBottom: "0.5rem" }} key={epics.id}>
-            <div>{epics.name}</div>
-            <EpicTypeIcon id={epics.typeId} />
+        {epics?.map((epic) => (
+          <Card
+            style={{ marginBottom: "0.5rem" }}
+            key={epic.id}
+            onClick={()=>startEdit(epic.id)}
+          >
+            <div>{epic.name}</div>
+            <EpicTypeIcon id={epic.typeId} />
           </Card>
         ))}
         <CreateEpic kanbanId={banner.id} />

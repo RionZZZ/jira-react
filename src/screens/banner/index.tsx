@@ -12,6 +12,7 @@ import {
 import { useEpics } from "utils/epic";
 import { Spin } from "antd";
 import { CreateBanner } from "./create-banner";
+import { EpicModal } from "./epic-modal";
 
 export const BannerScreen = () => {
   useDocumentTitle("看板列表");
@@ -36,6 +37,7 @@ export const BannerScreen = () => {
           <CreateBanner />
         </ColumnContainer>
       )}
+      <EpicModal />
     </ScreenContainer>
   );
 };

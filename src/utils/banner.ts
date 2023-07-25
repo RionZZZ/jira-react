@@ -1,7 +1,7 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { Banner } from "types/project";
 import { useHttp } from "./http";
-import { useAddConfig } from "./use-optimistic-options";
+import { useAddConfig, useDeleteConfig } from "./use-optimistic-options";
 
 export const useBanners = (param?: Partial<Banner>) => {
   const client = useHttp();
@@ -16,5 +16,13 @@ export const useAddBanner = (queryKey: QueryKey) => {
     (params: Partial<Banner>) =>
       client("kanbans", { data: params, method: "POST" }),
     useAddConfig(queryKey)
+  );
+};
+
+export const useDeleteBanner = (queryKey: QueryKey) => {
+  const client = useHttp();
+  return useMutation(
+    ({ id }: { id: number }) => client(`kanbans/${id}`, { method: "DELETE" }),
+    useDeleteConfig(queryKey)
   );
 };

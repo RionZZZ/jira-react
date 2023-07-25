@@ -25,7 +25,7 @@ export const CreateEpic = ({ kanbanId }: { kanbanId: number }) => {
   }, [inputMode]);
 
   if (!inputMode) {
-    return <Button type="primary" onClick={toggleMode}>add epic</Button>;
+    return <Button type="link" onClick={toggleMode}>+ add epic</Button>;
   } else {
     return (
       <Card>

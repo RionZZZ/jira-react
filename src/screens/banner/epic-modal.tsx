@@ -1,7 +1,7 @@
 import { useEpicModal, useEpicQueryKey } from "./util";
-import { useEditEpic } from "utils/epic";
+import { useDeleteEpic, useEditEpic } from "utils/epic";
 import { useEffect } from "react";
-import { Form, Input, Modal } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import { UserSelect } from "components/user-select";
 import { EpicTypeSelect } from "components/epic-type-select";
 
@@ -24,6 +24,17 @@ export const EpicModal = () => {
   useEffect(() => {
     form.setFieldsValue(editingEpic);
   }, [form, editingEpic]);
+
+  const { mutateAsync: removeEpic } = useDeleteEpic(useEpicQueryKey());
+  const remove = () => {
+    Modal.confirm({
+      title: "confirm?",
+      onOk: () => {
+        removeEpic({ id: +editingEpicId });
+        close();
+      },
+    });
+  };
 
   return (
     <Modal
@@ -49,6 +60,11 @@ export const EpicModal = () => {
           <EpicTypeSelect />
         </Form.Item>
       </Form>
+      <div>
+        <Button type="primary" danger onClick={remove}>
+          remove epic
+        </Button>
+      </div>
     </Modal>
   );
 };

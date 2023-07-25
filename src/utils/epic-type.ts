@@ -4,5 +4,5 @@ import { useHttp } from "./http";
 
 export const useEpicTypes = () => {
   const client = useHttp();
-  return useQuery<EpicType[]>(["taskTypes"], () => client("taskTypes"));
+  return useQuery<EpicType[]>(["epicType"], () => client("taskTypes"));
 };

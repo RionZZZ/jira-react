@@ -1,7 +1,7 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { Epic } from "types/project";
 import { useHttp } from "./http";
-import { useAddConfig, useEditConfig } from "./use-optimistic-options";
+import { useAddConfig, useDeleteConfig, useEditConfig } from "./use-optimistic-options";
 
 export const useEpics = (param?: Partial<Epic>) => {
   const client = useHttp();
@@ -34,3 +34,12 @@ export const useEditEpic = (queryKey: QueryKey) => {
     useEditConfig(queryKey)
   );
 };
+
+export const useDeleteEpic = (queryKey: QueryKey) => {
+  const client = useHttp();
+  return useMutation(
+    ({ id }: { id: number }) => client(`tasks/${id}`, { method: "DELETE" }),
+    useDeleteConfig(queryKey)
+  );
+};
+

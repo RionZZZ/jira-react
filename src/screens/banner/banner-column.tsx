@@ -10,6 +10,7 @@ import { CreateEpic } from "./create-epic";
 import { Mark } from "components/mark";
 import { useDeleteBanner } from "utils/banner";
 import { Row } from "components/lib";
+import { forwardRef } from "react";
 
 const EpicTypeIcon = ({ id }: { id: number }) => {
   const { data: epicTypes } = useEpicTypes();
@@ -18,25 +19,27 @@ const EpicTypeIcon = ({ id }: { id: number }) => {
   return <img src={name === "task" ? taskIcon : bugIcon} alt="type" />;
 };
 
-export const BannerColumn = ({ banner }: { banner: Banner }) => {
-  const { data: allEpics } = useEpics(useEpicSearchParams());
-  const epics = allEpics?.filter((epic) => epic.kanbanId === banner.id);
+export const BannerColumn = forwardRef<HTMLDivElement, { banner: Banner }>(
+  ({ banner, ...props }, ref) => {
+    const { data: allEpics } = useEpics(useEpicSearchParams());
+    const epics = allEpics?.filter((epic) => epic.kanbanId === banner.id);
 
-  return (
-    <Container>
-      <Row between>
-        <h3>{banner.name}</h3>
-        <More id={banner.id} />
-      </Row>
-      <EpicContainer>
-        {epics?.map((epic) => (
-          <EpicCard epic={epic} key={epic.id} />
-        ))}
-        <CreateEpic kanbanId={banner.id} />
-      </EpicContainer>
-    </Container>
-  );
-};
+    return (
+      <Container ref={ref} {...props}>
+        <Row between>
+          <h3>{banner.name}</h3>
+          <More id={banner.id} key={banner.id} />
+        </Row>
+        <EpicContainer>
+          {epics?.map((epic) => (
+            <EpicCard epic={epic} key={epic.id} />
+          ))}
+          <CreateEpic kanbanId={banner.id} />
+        </EpicContainer>
+      </Container>
+    );
+  }
+);
 
 const EpicCard = ({ epic }: { epic: Epic }) => {
   const { startEdit } = useEpicModal();

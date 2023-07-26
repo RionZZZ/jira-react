@@ -13,6 +13,8 @@ import { useEpics } from "utils/epic";
 import { Spin } from "antd";
 import { CreateBanner } from "./create-banner";
 import { EpicModal } from "./epic-modal";
+import { DragDropContext } from "react-beautiful-dnd";
+import { Drag, Drop, DropChild } from "components/drag-and-drop";
 
 export const BannerScreen = () => {
   useDocumentTitle("看板列表");
@@ -24,25 +26,35 @@ export const BannerScreen = () => {
   const { isLoading: epicLoading } = useEpics(useEpicSearchParams());
   const isLoading = bannerLoading || epicLoading;
   return (
-    <ScreenContainer>
-      <h1>{currentProject?.name}看板</h1>
-      <SearchPanel />
-      {isLoading ? (
-        <Spin size="large" />
-      ) : (
-        <ColumnContainer>
-          {banners?.map((banner) => (
-            <BannerColumn banner={banner} key={banner.id} />
-          ))}
-          <CreateBanner />
-        </ColumnContainer>
-      )}
-      <EpicModal />
-    </ScreenContainer>
+    <DragDropContext onDragEnd={() => {}}>
+      <ScreenContainer>
+        <h1>{currentProject?.name}看板</h1>
+        <SearchPanel />
+        {isLoading ? (
+          <Spin size="large" />
+        ) : (
+          <Drop type={"COLUMN"} direction="horizontal" droppableId="banner">
+            <ColumnContainer>
+              {banners?.map((banner, index) => (
+                <Drag
+                  key={banner.id}
+                  draggableId={`banner${banner.id}`}
+                  index={index}
+                >
+                  <BannerColumn banner={banner} />
+                </Drag>
+              ))}
+              <CreateBanner />
+            </ColumnContainer>
+          </Drop>
+        )}
+        <EpicModal />
+      </ScreenContainer>
+    </DragDropContext>
   );
 };
 
-export const ColumnContainer = styled.div`
+export const ColumnContainer = styled(DropChild)`
   display: flex;
   flex: 1;
   overflow-x: auto;

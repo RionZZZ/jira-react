@@ -11,6 +11,7 @@ import { Mark } from "components/mark";
 import { useDeleteBanner } from "utils/banner";
 import { Row } from "components/lib";
 import { forwardRef } from "react";
+import { Drag, Drop, DropChild } from "components/drag-and-drop";
 
 const EpicTypeIcon = ({ id }: { id: number }) => {
   const { data: epicTypes } = useEpicTypes();
@@ -31,10 +32,26 @@ export const BannerColumn = forwardRef<HTMLDivElement, { banner: Banner }>(
           <More id={banner.id} key={banner.id} />
         </Row>
         <EpicContainer>
-          {epics?.map((epic) => (
-            <EpicCard epic={epic} key={epic.id} />
-          ))}
-          <CreateEpic kanbanId={banner.id} />
+          <Drop
+            type="ROW"
+            direction="vertical"
+            droppableId={"task" + banner.id}
+          >
+            <DropChild>
+              {epics?.map((epic, epicIndex) => (
+                <Drag
+                  key={epic.id}
+                  index={epicIndex}
+                  draggableId={"task" + epic.id}
+                >
+                  <div>
+                    <EpicCard epic={epic} />
+                  </div>
+                </Drag>
+              ))}
+              <CreateEpic kanbanId={banner.id} />
+            </DropChild>
+          </Drop>
         </EpicContainer>
       </Container>
     );

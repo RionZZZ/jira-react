@@ -25,8 +25,6 @@ const useConfig = (
 
 export const useDeleteConfig = (queryKey: QueryKey) =>
   useConfig(queryKey, (target, old) => {
-    console.log(target);
-    console.log(old?.filter((item) => item.id !== target.id));
     return old?.filter((item) => item.id !== target.id) || [];
   });
 

@@ -33,20 +33,22 @@ export const BannerScreen = () => {
         {isLoading ? (
           <Spin size="large" />
         ) : (
-          <Drop type={"COLUMN"} direction="horizontal" droppableId="banner">
-            <ColumnContainer>
-              {banners?.map((banner, index) => (
-                <Drag
-                  key={banner.id}
-                  draggableId={`banner${banner.id}`}
-                  index={index}
-                >
-                  <BannerColumn banner={banner} />
-                </Drag>
-              ))}
-              <CreateBanner />
-            </ColumnContainer>
-          </Drop>
+          <ColumnContainer>
+            <Drop type={"COLUMN"} direction="horizontal" droppableId="banner">
+              <DropChild style={{ display: "flex" }}>
+                {banners?.map((banner, index) => (
+                  <Drag
+                    key={banner.id}
+                    draggableId={`banner${banner.id}`}
+                    index={index}
+                  >
+                    <BannerColumn banner={banner} />
+                  </Drag>
+                ))}
+              </DropChild>
+            </Drop>
+            <CreateBanner />
+          </ColumnContainer>
         )}
         <EpicModal />
       </ScreenContainer>
@@ -54,7 +56,7 @@ export const BannerScreen = () => {
   );
 };
 
-export const ColumnContainer = styled(DropChild)`
+export const ColumnContainer = styled("div")`
   display: flex;
   flex: 1;
   overflow-x: auto;

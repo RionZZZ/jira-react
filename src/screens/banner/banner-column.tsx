@@ -32,11 +32,7 @@ export const BannerColumn = forwardRef<HTMLDivElement, { banner: Banner }>(
           <More id={banner.id} key={banner.id} />
         </Row>
         <EpicContainer>
-          <Drop
-            type="ROW"
-            direction="vertical"
-            droppableId={"task" + banner.id}
-          >
+          <Drop type="ROW" direction="vertical" droppableId={banner.id + ""}>
             <DropChild>
               {epics?.map((epic, epicIndex) => (
                 <Drag

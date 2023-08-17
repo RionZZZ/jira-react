@@ -26,3 +26,17 @@ export const useDeleteBanner = (queryKey: QueryKey) => {
     useDeleteConfig(queryKey)
   );
 };
+
+export interface SortProps {
+  fromId: number;
+  referenceId: number;
+  type: "before" | "after";
+  fromKanbanId?: number;
+  toKanbanId?: number;
+}
+export const useReorderBanner = () => {
+  const client = useHttp();
+  return useMutation((params: SortProps) =>
+    client("kanbans/reorder", { data: params, method: "POST" })
+  );
+};

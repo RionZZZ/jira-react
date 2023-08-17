@@ -1,7 +1,12 @@
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { Epic } from "types/project";
 import { useHttp } from "./http";
-import { useAddConfig, useDeleteConfig, useEditConfig } from "./use-optimistic-options";
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useEditConfig,
+} from "./use-optimistic-options";
+import { SortProps } from "./banner";
 
 export const useEpics = (param?: Partial<Epic>) => {
   const client = useHttp();
@@ -43,3 +48,9 @@ export const useDeleteEpic = (queryKey: QueryKey) => {
   );
 };
 
+export const useReorderEpic = () => {
+  const client = useHttp();
+  return useMutation((params: SortProps) =>
+    client("tasks/reorder", { data: params, method: "POST" })
+  );
+};

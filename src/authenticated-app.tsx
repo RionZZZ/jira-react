@@ -12,6 +12,7 @@ import { ProjectPopover } from "components/project-popover";
 import { ProjectModal } from "screens/project-list/project-modal";
 import { useState } from "react";
 import { useProjectModal } from "screens/project-list/util";
+import { UserPopover } from "components/user-popover";
 
 const Container = styled.div`
   display: grid;
@@ -62,7 +63,7 @@ const PageHeader = () => {
           <Logo width={"18rem"} color={"#1B75F0"} />
         </ButtonNoPadding>
         <ProjectPopover />
-        <span>用户</span>
+        <UserPopover />
       </HeaderLeft>
       <HeaderRight>
         <User />

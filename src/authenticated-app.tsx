@@ -31,28 +31,26 @@ const Main = styled.main`
   overflow: hidden;
 `;
 
-export const AuthenticatedApp = () => {
+export default () => (
   // const [openModal, setOpenModal] = useState(false);
 
-  return (
-    <Container>
-      <BrowserRouter>
-        <PageHeader />
-        <Main>
-          {/* <ProjectListScreen /> */}
-          {/* <BrowserRouter> */}
-          <Routes>
-            <Route path="/projects" element={<ProjectListScreen />} />
-            <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
-            <Route path="*" element={<Navigate to="/projects" />} />
-          </Routes>
-          {/* </BrowserRouter> */}
-        </Main>
-        <ProjectModal />
-      </BrowserRouter>
-    </Container>
-  );
-};
+  <Container>
+    <BrowserRouter>
+      <PageHeader />
+      <Main>
+        {/* <ProjectListScreen /> */}
+        {/* <BrowserRouter> */}
+        <Routes>
+          <Route path="/projects" element={<ProjectListScreen />} />
+          <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
+          <Route path="*" element={<Navigate to="/projects" />} />
+        </Routes>
+        {/* </BrowserRouter> */}
+      </Main>
+      <ProjectModal />
+    </BrowserRouter>
+  </Container>
+);
 
 const PageHeader = () => {
   return (

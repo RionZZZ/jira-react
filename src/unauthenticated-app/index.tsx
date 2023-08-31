@@ -52,7 +52,7 @@ export const LongButton = styled(Button)`
   width: 100%;
 `;
 
-export const UnauthenticatedApp = () => {
+export default () => {
   useDocumentTitle("登录注册");
 
   const [isRegister, setIsRegister] = useState(false);

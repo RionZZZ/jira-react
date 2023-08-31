@@ -7,6 +7,8 @@ import { useEpicsQueryKey, useEpicsSearchParams } from "./util";
 import { Button, List, Modal } from "antd";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { CreateEpics } from "./create-epics";
+import { useState } from "react";
 
 export const EpicScreen = () => {
   useDocumentTitle("任务组");
@@ -14,7 +16,9 @@ export const EpicScreen = () => {
   const { data: currentProject } = useProjectFromUrl();
   const { data: epics } = useEpics(useEpicsSearchParams());
   const { data: tasks } = useTasks({ projectId: currentProject?.id });
-  const { mutate: deleteEpic } = useDeleteEpics(useEpicsQueryKey());
+  const { mutateAsync: deleteEpic } = useDeleteEpics(useEpicsQueryKey());
+
+  const [epicsCreateOpen, setEpicsCreateOpen] = useState(false);
 
   const onRemoveClick = (id: number) => {
     Modal.confirm({
@@ -25,7 +29,12 @@ export const EpicScreen = () => {
 
   return (
     <ScreenContainer>
-      <h1>{currentProject?.name}任务组</h1>
+      <Row between>
+        <h1>{currentProject?.name}任务组</h1>
+        <Button onClick={() => setEpicsCreateOpen(true)} type="link">
+          create
+        </Button>
+      </Row>
       <List
         dataSource={epics}
         itemLayout="vertical"
@@ -61,6 +70,10 @@ export const EpicScreen = () => {
             </div>
           </List.Item>
         )}
+      />
+      <CreateEpics
+        open={epicsCreateOpen}
+        onClose={() => setEpicsCreateOpen(false)}
       />
     </ScreenContainer>
   );

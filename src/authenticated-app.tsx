@@ -31,7 +31,7 @@ const Main = styled.main`
   overflow: hidden;
 `;
 
-export default () => (
+export default function AuthenticatedApp() {
   // const [openModal, setOpenModal] = useState(false);
 
   <Container>
@@ -49,8 +49,8 @@ export default () => (
       </Main>
       <ProjectModal />
     </BrowserRouter>
-  </Container>
-);
+  </Container>;
+}
 
 const PageHeader = () => {
   return (

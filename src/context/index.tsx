@@ -6,7 +6,17 @@ import { QueryClientProvider, QueryClient } from "react-query";
 
 export const AppProvides = ({ children }: { children: React.ReactNode }) => {
   return (
-    <QueryClientProvider client={new QueryClient()}>
+    <QueryClientProvider
+      client={
+        new QueryClient({
+          defaultOptions: {
+            queries: {
+              refetchOnWindowFocus: false,
+            },
+          },
+        })
+      }
+    >
       <ConfigProvider
         theme={{
           token: {

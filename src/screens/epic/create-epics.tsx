@@ -3,7 +3,6 @@ import { useAddEpics } from "utils/epics";
 import { Button, Drawer, DrawerProps, Form, Input, Spin } from "antd";
 import styled from "@emotion/styled";
 import { ErrorBox } from "components/lib";
-import useForm from "antd/es/form/hooks/useForm";
 import { Epic } from "types/epic";
 import { useEffect } from "react";
 import { useProjectIdFromUrl } from "screens/banner/util";
@@ -11,7 +10,7 @@ import { useProjectIdFromUrl } from "screens/banner/util";
 export const CreateEpics = (
   props: Pick<DrawerProps, "open"> & { onClose: () => void }
 ) => {
-  const [form] = useForm();
+  const [form] = Form.useForm();
 
   const projectId = useProjectIdFromUrl();
 

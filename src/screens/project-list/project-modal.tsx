@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { Button, Drawer, Form, Input, Spin } from "antd";
-import useForm from "antd/es/form/hooks/useForm";
 import { ErrorBox } from "components/lib";
 import { UserSelect } from "components/user-select";
 import { useEffect } from "react";
@@ -19,7 +18,7 @@ export const ProjectModal = () =>
   {
     const { projectModalOpen, close, editingProject, isLoading } =
       useProjectModal();
-    const [form] = useForm();
+    const [form] = Form.useForm();
 
     const useMutateProject = editingProject ? useEditProject : useAddProject;
     const {
